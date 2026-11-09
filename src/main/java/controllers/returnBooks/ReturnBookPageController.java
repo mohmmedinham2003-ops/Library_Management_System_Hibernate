@@ -1,0 +1,192 @@
+package controllers.returnBooks;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import model.ReturnBookDTO;
+import scene.SceneManager;
+
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
+public class ReturnBookPageController implements Initializable {
+    Stage stage = new Stage();
+    ReturnBookController returnBookController = new ReturnBookController();
+
+    @FXML
+    private Button btnAddBooks;
+
+    @FXML
+    private Button btnAddmembers;
+
+    @FXML
+    private Button btnBorrowingHistory;
+
+    @FXML
+    private Button btnClear;
+
+    @FXML
+    private Button btnHome;
+
+    @FXML
+    private Button btnIssueBooks;
+
+    @FXML
+    private Button btnLogOut;
+
+    @FXML
+    private Button btnReturnBooks;
+
+    @FXML
+    private Button btnSave;
+
+    @FXML
+    private Button btnUpdatemembers;
+
+    @FXML
+    private DatePicker dtpBorrowedDate;
+
+    @FXML
+    private DatePicker dtpDueDate;
+
+    @FXML
+    private DatePicker dtpReturnedDate;
+
+    @FXML
+    private Label lblStatus;
+
+    @FXML
+    private TextField txtAddress;
+
+
+    @FXML
+    private ComboBox<Integer> cmbBookId;
+
+    @FXML
+    private ComboBox<Integer> cmbMemberId;
+
+    @FXML
+    private TextField txtPhoneNumber;
+
+    @FXML
+    void btnClearOnAction(ActionEvent event) {
+        cmbBookId.getSelectionModel().clearSelection();
+        cmbMemberId.getSelectionModel().clearSelection();
+        txtPhoneNumber.clear();
+        txtAddress.clear();
+        dtpBorrowedDate.setValue(null);
+        dtpDueDate.setValue(null);
+        dtpReturnedDate.setValue(null);
+    }
+
+
+    @FXML
+    void btnSaveOnAction(ActionEvent event) {
+        ReturnBookDTO returnBookDTO = new ReturnBookDTO();
+
+        returnBookDTO.setCmbBookId(cmbBookId.getValue());
+        returnBookDTO.setCmbMemberId(cmbMemberId.getValue());
+        returnBookDTO.setPhoneNumber(txtPhoneNumber.getText());
+        returnBookDTO.setAddress(txtAddress.getText());
+        returnBookDTO.setBorrowedDate(dtpBorrowedDate.getValue());
+        returnBookDTO.setDueDate(dtpDueDate.getValue());
+        returnBookDTO.setReturnedDate(dtpReturnedDate.getValue());
+
+        if (returnBookDTO.getCmbBookId() == 0 || returnBookDTO.getCmbMemberId() == 0 ||
+                returnBookDTO.getPhoneNumber() == null || returnBookDTO.getPhoneNumber().trim().isEmpty() ||
+                returnBookDTO.getAddress() == null || returnBookDTO.getAddress().trim().isEmpty() ||
+                returnBookDTO.getBorrowedDate() == null || returnBookDTO.getDueDate() == null ||
+                returnBookDTO.getReturnedDate() == null
+        ){
+            new Alert(Alert.AlertType.WARNING,"Pls fill all the fields").show();
+        }
+
+        try {
+            boolean isAdd = returnBookController.returnBooks(returnBookDTO);
+            if (isAdd){
+                new Alert(Alert.AlertType.CONFIRMATION,"Successfully Added!!").show();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Failed to add!!").show();
+            }
+
+        } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR,"System Error!!!").show();
+        }
+
+
+//        if(returnBookController.returnBooks(cmbBookId.getValue(),cmbMemberId.getValue(),txtPhoneNumber.getText(),txtAddress.getText(),dtpBorrowedDate.getValue(),dtpDueDate.getValue(),dtpReturnedDate.getValue())){
+//            System.out.println("Success");
+//        }else {
+//            System.out.println("failed");
+//        }
+    }
+
+
+    @FXML
+    void btnAddBooksOnAction(ActionEvent event) {
+        SceneManager.switchPage("/view/add_book_page.fxml");
+    }
+
+    @FXML
+    void btnAddmembersOnAction(ActionEvent event) {
+        SceneManager.switchPage("/view/add_member_page.fxml");
+    }
+
+    @FXML
+    void btnBorrowingHistoryOnAction(ActionEvent event) {
+        SceneManager.switchPage("/view/borrowing_history_page.fxml");
+    }
+
+    @FXML
+    void btnHomeOnAction(ActionEvent event) {
+        SceneManager.switchPage("/view/main_dashboard.fxml");
+    }
+
+    @FXML
+    void btnIssueBooksOnAction(ActionEvent event) {
+        SceneManager.switchPage("/view/issue_books_page.fxml");
+    }
+
+    @FXML
+    void btnLogOutOnAction(ActionEvent event) {
+        SceneManager.switchPage("/view/login_page.fxml");
+    }
+
+    @FXML
+    void btnReturnBooksOnAction(ActionEvent event) {
+        SceneManager.switchPage("/view/return_book_page.fxml");
+    }
+
+    @FXML
+    void btnUpdatemembersOnAction(ActionEvent event) {
+        SceneManager.switchPage("/view/view_and_update_member_page.fxml");
+    }
+
+    public void fillBorrowingDetails( int memberId, String phoneNumber, String address, LocalDate borrowedDate, LocalDate dueDate){
+       cmbMemberId.setValue(memberId);
+       txtPhoneNumber.setText(phoneNumber);
+       txtAddress.setText(address);
+       dtpBorrowedDate.setValue(borrowedDate);
+       dtpDueDate.setValue(dueDate);
+
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        cmbBookId.setItems(returnBookController.getAllBooks());
+        cmbMemberId.setItems(returnBookController.loadMembers());
+
+        cmbBookId.setOnAction(event -> {
+            Integer bookId = cmbBookId.getValue();
+
+            if (bookId != null) {
+                returnBookController.loadBorrowList(bookId, this);
+            }
+        });
+    }
+}
