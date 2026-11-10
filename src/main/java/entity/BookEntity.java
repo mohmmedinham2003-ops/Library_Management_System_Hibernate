@@ -1,14 +1,14 @@
 package entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import javax.annotation.processing.Generated;
 
 @Entity
 @Table(name = "book")
 public class BookEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String bookId;
     private String bookTitle;
     private String author;

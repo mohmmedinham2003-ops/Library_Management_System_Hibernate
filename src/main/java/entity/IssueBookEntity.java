@@ -1,8 +1,13 @@
 package entity;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+@Entity
+@Table(name = "issue_book")
 public class IssueBookEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer issueId;
     private Integer cmbMemberId;
     private Integer cmbBookId;
