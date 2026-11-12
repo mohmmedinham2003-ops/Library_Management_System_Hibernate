@@ -1,6 +1,7 @@
 package controllers.issueBooks;
 
 import controllers.db.DBConnection;
+import entity.IssueBookEntity;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,8 +64,16 @@ public class IssueBooksController {
         try {
             Transaction transaction = sessionFactory.beginTransaction();
 
+            IssueBookEntity issueBookEntity = new IssueBookEntity();
+            issueBookEntity.setCmbMemberId(issueBookDTO.getCmbMemberId());
+            issueBookEntity.setCmbBookId(issueBookDTO.getCmbBookId());
+            issueBookEntity.setDtpIssueDate(issueBookDTO.getDtpIssueDate());
+            issueBookEntity.setDtpDueDate(issueBookDTO.getDtpDueDate());
+
+            transaction.commit();
+
             return true;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
