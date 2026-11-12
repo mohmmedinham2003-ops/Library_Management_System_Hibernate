@@ -4,14 +4,17 @@ import controllers.db.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.ReturnBookDTO;
+import org.hibernate.Session;
 
 import java.sql.*;
 import java.time.LocalDate;
 
 public class ReturnBookController {
-    Connection connection = DBConnection.getInstance().getConnection();
+
+    Session sessionFactory = DBConnection.getSessionFactory();
 
     public boolean returnBooks(ReturnBookDTO returnBookDTO) {
+
         String SQL = "INSERT INTO returned_books(book_id,member_id,phone_number,address,borrowed_date,due_date,returned_date) VALUES(?, ?, ?, ?, ?, ?, ?) ";
 
         try {
