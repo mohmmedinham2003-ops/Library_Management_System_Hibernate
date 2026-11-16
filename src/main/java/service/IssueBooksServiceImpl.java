@@ -1,19 +1,16 @@
-package controllers.issueBooks;
+package service;
 
 import controllers.db.DBConnection;
 import entity.IssueBookEntity;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import model.IssueBookDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.sql.*;
-import java.time.LocalDate;
 
-public class IssueBooksController {
+public class IssueBooksServiceImpl {
 
 
     public ObservableList<Integer> loadMembers() {

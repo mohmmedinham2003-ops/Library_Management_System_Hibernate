@@ -1,6 +1,5 @@
 package controllers.returnBooks;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.ReturnBookDTO;
 import scene.SceneManager;
+import service.ReturnBookServiceImpl;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class ReturnBookPageController implements Initializable {
     Stage stage = new Stage();
-    ReturnBookController returnBookController = new ReturnBookController();
+    ReturnBookServiceImpl returnBookServiceImpl = new ReturnBookServiceImpl();
 
     @FXML
     private Button btnAddBooks;
@@ -106,7 +106,7 @@ public class ReturnBookPageController implements Initializable {
         }
 
         try {
-            boolean isAdd = returnBookController.returnBooks(returnBookDTO);
+            boolean isAdd = returnBookServiceImpl.returnBooks(returnBookDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Successfully Added!!").show();
             }else {
@@ -178,14 +178,14 @@ public class ReturnBookPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cmbBookId.setItems(returnBookController.getAllBooks());
-        cmbMemberId.setItems(returnBookController.loadMembers());
+        cmbBookId.setItems(returnBookServiceImpl.getAllBooks());
+        cmbMemberId.setItems(returnBookServiceImpl.loadMembers());
 
         cmbBookId.setOnAction(event -> {
             Integer bookId = cmbBookId.getValue();
 
             if (bookId != null) {
-                returnBookController.loadBorrowList(bookId, this);
+                returnBookServiceImpl.loadBorrowList(bookId, this);
             }
         });
     }

@@ -1,0 +1,25 @@
+package controllers.db;
+
+import entity.BookEntity;
+import entity.IssueBookEntity;
+import entity.MemberEntity;
+import entity.ReturnBookEntity;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class HibernateUtil {
+    public static Session getSession(){
+        Configuration configure = new Configuration().configure()
+        .addAnnotatedClass(MemberEntity.class)
+        .addAnnotatedClass(BookEntity.class)
+        .addAnnotatedClass(IssueBookEntity.class)
+        .addAnnotatedClass(ReturnBookEntity.class);
+
+        SessionFactory sessionFactory = configure.buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+
+        return session;
+    }
+}

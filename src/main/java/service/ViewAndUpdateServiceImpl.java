@@ -1,6 +1,7 @@
-package controllers.updateMembers;
+package service;
 
 import controllers.db.DBConnection;
+import controllers.updateMembers.ViewAndUpdateMemberPageController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.ViewAndUpdateMembersDTO;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ViewAndUpdateController {
+public class ViewAndUpdateServiceImpl {
     Connection connection = DBConnection.getInstance().getConnection();
 
     public ObservableList<Integer> loadMembers() {
@@ -73,7 +74,7 @@ public class ViewAndUpdateController {
         return membersList;
     }
 
-    public void loadUpdateList(int member_id,ViewAndUpdateMemberPageController viewAndUpdateMemberPageController){
+    public void loadUpdateList(int member_id, ViewAndUpdateMemberPageController viewAndUpdateMemberPageController){
         String SQL = """
                 SELECT full_name,email,phone_number,address
                 FROM members WHERE

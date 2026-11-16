@@ -1,4 +1,4 @@
-package controllers.login;
+package service;
 
 import controllers.db.DBConnection;
 
@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginController {
+public class LoginServiceImpl {
     Connection connection = DBConnection.getInstance().getConnection();
     public boolean checkUsernameAndpassword(String userName, String password) {
         String SQL = "SELECT * FROM users";

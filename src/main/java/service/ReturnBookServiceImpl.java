@@ -1,6 +1,7 @@
-package controllers.returnBooks;
+package service;
 
 import controllers.db.DBConnection;
+import controllers.returnBooks.ReturnBookPageController;
 import entity.ReturnBookEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,9 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.sql.*;
-import java.time.LocalDate;
 
-public class ReturnBookController {
+public class ReturnBookServiceImpl {
 
     Session sessionFactory = DBConnection.getSessionFactory();
 

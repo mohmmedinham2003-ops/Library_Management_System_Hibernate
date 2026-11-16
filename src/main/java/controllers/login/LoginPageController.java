@@ -2,18 +2,15 @@ package controllers.login;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import scene.SceneManager;
-
-import java.io.IOException;
+import service.LoginServiceImpl;
 
 public class LoginPageController {
-    LoginController loginController = new LoginController();
+    LoginServiceImpl loginServiceImpl = new LoginServiceImpl();
     Stage stage = new Stage();
 
     @FXML
@@ -37,7 +34,7 @@ public class LoginPageController {
     @FXML
     void btnLoginOnAction(ActionEvent event) {
 
-         if(loginController.checkUsernameAndpassword(txtUserName.getText(),txtPassword.getText())){
+         if(loginServiceImpl.checkUsernameAndpassword(txtUserName.getText(),txtPassword.getText())){
            SceneManager.switchPage("/view/main_dashboard.fxml");
 
          }

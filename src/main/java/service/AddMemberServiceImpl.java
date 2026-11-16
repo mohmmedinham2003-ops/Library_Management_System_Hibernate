@@ -1,4 +1,4 @@
-package controllers.members;
+package service;
 
 import controllers.db.DBConnection;
 import entity.MemberEntity;
@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 
-public class AddMemberController {
+public class AddMemberServiceImpl {
 
     public boolean addMember(MemberDTO memberDTO) {
         Session sessionFactory = DBConnection.getSessionFactory();

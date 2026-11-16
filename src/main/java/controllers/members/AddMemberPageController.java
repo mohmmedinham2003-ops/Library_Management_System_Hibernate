@@ -2,19 +2,16 @@ package controllers.members;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.MemberDTO;
 import scene.SceneManager;
-
-import java.io.IOException;
+import service.AddMemberServiceImpl;
 
 public class AddMemberPageController {
-AddMemberController addMemberController = new AddMemberController();
+AddMemberServiceImpl addMemberServiceImpl = new AddMemberServiceImpl();
 Stage stage = new Stage();
     @FXML
     private Button btnAdd;
@@ -77,7 +74,7 @@ Stage stage = new Stage();
         }
 
         try{
-        boolean isAdd = addMemberController.addMember(memberDTO);
+        boolean isAdd = addMemberServiceImpl.addMember(memberDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Member Added Successfully!!!").show();
 
