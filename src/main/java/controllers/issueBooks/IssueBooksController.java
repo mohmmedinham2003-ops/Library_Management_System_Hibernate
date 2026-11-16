@@ -1,11 +1,14 @@
 package controllers.issueBooks;
 
 import controllers.db.DBConnection;
+import entity.IssueBookEntity;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import model.IssueBookDTO;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -57,18 +60,20 @@ public class IssueBooksController {
     }
 
     public boolean issuebooks(IssueBookDTO issueBookDTO) {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String SQL = "INSERT INTO issue_book(member_id,book_id,issue_date,due_date) VALUES(?, ?, ?, ?) ";
+        Session sessionFactory = DBConnection.getSessionFactory();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setInt(1,issueBookDTO.getCmbMemberId());
-            preparedStatement.setInt(2,issueBookDTO.getCmbBookId());
-            preparedStatement.setDate(3, Date.valueOf(issueBookDTO.getDtpIssueDate()));
-            preparedStatement.setDate(4, Date.valueOf(issueBookDTO.getDtpIssueDate()));
+            Transaction transaction = sessionFactory.beginTransaction();
 
-            preparedStatement.executeUpdate();
+            IssueBookEntity issueBookEntity = new IssueBookEntity();
+            issueBookEntity.setCmbMemberId(issueBookDTO.getCmbMemberId());
+            issueBookEntity.setCmbBookId(issueBookDTO.getCmbBookId());
+            issueBookEntity.setDtpIssueDate(issueBookDTO.getDtpIssueDate());
+            issueBookEntity.setDtpDueDate(issueBookDTO.getDtpDueDate());
+
+            transaction.commit();
+
             return true;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

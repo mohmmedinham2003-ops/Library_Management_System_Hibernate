@@ -1,36 +1,43 @@
 package controllers.returnBooks;
 
 import controllers.db.DBConnection;
+import entity.ReturnBookEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.ReturnBookDTO;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.*;
 import java.time.LocalDate;
 
 public class ReturnBookController {
-    Connection connection = DBConnection.getInstance().getConnection();
+
+    Session sessionFactory = DBConnection.getSessionFactory();
 
     public boolean returnBooks(ReturnBookDTO returnBookDTO) {
-        String SQL = "INSERT INTO returned_books(book_id,member_id,phone_number,address,borrowed_date,due_date,returned_date) VALUES(?, ?, ?, ?, ?, ?, ?) ";
+
+        Transaction transaction = sessionFactory.beginTransaction();
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setInt(1,returnBookDTO.getCmbBookId());
-            preparedStatement.setInt(2,returnBookDTO.getCmbMemberId());
-            preparedStatement.setString(3,returnBookDTO.getPhoneNumber());
-            preparedStatement.setString(4,returnBookDTO.getAddress());
-            preparedStatement.setDate(5, Date.valueOf(returnBookDTO.getBorrowedDate()));
-            preparedStatement.setDate(6, Date.valueOf(returnBookDTO.getDueDate()));
-            preparedStatement.setDate(7, Date.valueOf(returnBookDTO.getReturnedDate()));
+            ReturnBookEntity returnBookEntity = new ReturnBookEntity();
+            returnBookEntity.setCmbBookId(returnBookDTO.getCmbBookId());
+            returnBookEntity.setCmbMemberId(returnBookDTO.getCmbMemberId());
+            returnBookEntity.setPhoneNumber(returnBookDTO.getPhoneNumber());
+            returnBookEntity.setAddress(returnBookDTO.getAddress());
+            returnBookEntity.setBorrowedDate(returnBookDTO.getBorrowedDate());
+            returnBookEntity.setDueDate(returnBookDTO.getDueDate());
+            returnBookEntity.setReturnedDate(returnBookDTO.getReturnedDate());
 
-            preparedStatement.executeUpdate();
+            transaction.commit();
 
             return true;
 
-        } catch (SQLException e) {
+
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
 
     }
 

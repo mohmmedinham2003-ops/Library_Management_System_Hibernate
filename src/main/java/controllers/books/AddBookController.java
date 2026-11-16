@@ -1,7 +1,10 @@
 package controllers.books;
 
 import controllers.db.DBConnection;
+import entity.BookEntity;
 import model.BookDTO;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,21 +14,29 @@ public class AddBookController {
 
 
     public boolean addBook(BookDTO bookDTO) {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String SQL = "INSERT INTO books(book_title,author,category,published_year,quantity) VALUES(?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setString(1,bookDTO.getBookTitle());
-            preparedStatement.setString(2,bookDTO.getAuthor());
-            preparedStatement.setString(3,bookDTO.getCategory());
-            preparedStatement.setInt(4,bookDTO.getPublishedyear());
-            preparedStatement.setInt(5,bookDTO.getQuantity());
+        Session sessionFactory = DBConnection.getSessionFactory();
 
-            preparedStatement.executeUpdate();
+        try {
+            Transaction transaction = sessionFactory.beginTransaction();
+            BookEntity bookEntity = new BookEntity();
+
+            bookEntity.setBookTitle(bookDTO.getBookTitle());
+            bookEntity.setAuthor(bookDTO.getAuthor());
+            bookEntity.setCategory(bookDTO.getCategory());
+            bookEntity.setPublishedyear(bookDTO.getPublishedyear());
+            bookEntity.setQuantity(bookDTO.getQuantity());
+
+            sessionFactory.persist(bookEntity);
+
+            transaction.commit();
+
             return true;
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+
+
     }
 }

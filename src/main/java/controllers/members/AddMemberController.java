@@ -1,35 +1,33 @@
 package controllers.members;
 
 import controllers.db.DBConnection;
+import entity.MemberEntity;
 import model.MemberDTO;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class AddMemberController {
 
     public boolean addMember(MemberDTO memberDTO) {
-        Connection connection = DBConnection.getInstance().getConnection();
+        Session sessionFactory = DBConnection.getSessionFactory();
+        try {
+            Transaction transaction = sessionFactory.beginTransaction();
+            MemberEntity memberEntity = new MemberEntity();
 
-            String SQL = "INSERT INTO members(full_name,email,phone_number,address) VALUES(?, ?, ?, ?)";
+            memberEntity.setFullName(memberDTO.getFullName());
+            memberEntity.setEmail(memberDTO.getEmail());
+            memberEntity.setPhoneNumber(memberDTO.getPhoneNumber());
+            memberEntity.setAddress(memberDTO.getAddress());
 
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-                preparedStatement.setString(1,memberDTO.getFullName());
-                preparedStatement.setString(2,memberDTO.getPhoneNumber());
-                preparedStatement.setString(3,memberDTO.getPhoneNumber());
-                preparedStatement.setString(4,memberDTO.getAddress());
+            transaction.commit();
 
-
-                preparedStatement.executeUpdate();
-                return true;
+            return true;
 
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-
-            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
