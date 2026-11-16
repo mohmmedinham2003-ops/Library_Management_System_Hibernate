@@ -1,34 +1,20 @@
 package service;
 
-import controllers.db.DBConnection;
 import entity.MemberEntity;
 import model.MemberDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import repository.AddMemberRepository;
 
 
 public class AddMemberServiceImpl {
+    AddMemberRepository addMemberRepository = new AddMemberRepository();
 
     public boolean addMember(MemberDTO memberDTO) {
-        Session sessionFactory = DBConnection.getSessionFactory();
-        try {
-            Transaction transaction = sessionFactory.beginTransaction();
-            MemberEntity memberEntity = new MemberEntity();
+        return addMemberRepository.addMembers(memberDTO);
 
-            memberEntity.setFullName(memberDTO.getFullName());
-            memberEntity.setEmail(memberDTO.getEmail());
-            memberEntity.setPhoneNumber(memberDTO.getPhoneNumber());
-            memberEntity.setAddress(memberDTO.getAddress());
-
-            transaction.commit();
-
-            return true;
-
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
+
 
 }
 
