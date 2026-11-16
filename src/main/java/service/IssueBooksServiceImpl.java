@@ -7,32 +7,17 @@ import javafx.collections.ObservableList;
 import model.IssueBookDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import repository.IssueBooksRepository;
 
 import java.sql.*;
 
 public class IssueBooksServiceImpl {
+    IssueBooksRepository issueBooksRepository = new IssueBooksRepository();
 
 
     public ObservableList<Integer> loadMembers() {
-        ObservableList<Integer> members = FXCollections.observableArrayList();
+         return   issueBooksRepository.loadMember();
 
-        String SQL = "SELECT member_id FROM members";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                //members.add(resultSet.getInt("member_id"));
-                members.add(resultSet.getInt("member_id"));
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return members;
 
     }
 
