@@ -9,13 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import scene.SceneManager;
+import service.DashboardServiceImpl;
 
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class MainDashboardController implements Initializable {
-    DashboardController dashboardController = new DashboardController();
+    DashboardServiceImpl dashboardServiceImpl = new DashboardServiceImpl();
     @FXML
     private Button btnAddBooks;
 
@@ -125,11 +126,11 @@ public class MainDashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadMaintabble();
-        lblTotalMembers.setText(String.valueOf(dashboardController.loadMemberCount()));
-        lblTotalBooks.setText(String.valueOf(dashboardController.LoadBookCount()));
-        lblTotalIssueBooks.setText(String.valueOf(dashboardController.LoadIssuedBookCount()));
-         lblTotalReturnedBooks.setText(String.valueOf(dashboardController.LoadReturnedCount()));
+        lblTotalMembers.setText(String.valueOf(dashboardServiceImpl.loadMemberCount()));
+        lblTotalBooks.setText(String.valueOf(dashboardServiceImpl.LoadBookCount()));
+        lblTotalIssueBooks.setText(String.valueOf(dashboardServiceImpl.LoadIssuedBookCount()));
+         lblTotalReturnedBooks.setText(String.valueOf(dashboardServiceImpl.LoadReturnedCount()));
 
-        tbllDashboardView.setItems(dashboardController.loadDetails());
+        tbllDashboardView.setItems(dashboardServiceImpl.loadDetails());
     }
 }

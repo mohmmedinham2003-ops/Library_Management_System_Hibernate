@@ -2,9 +2,7 @@ package controllers.issueBooks;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -12,13 +10,13 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 import model.IssueBookDTO;
 import scene.SceneManager;
+import service.IssueBooksServiceImpl;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class IssueBooksPageController implements Initializable {
-    IssueBooksController issueBooksController = new IssueBooksController();
+    IssueBooksServiceImpl issueBooksServiceImpl = new IssueBooksServiceImpl();
     Stage stage = new Stage();
 
     @FXML
@@ -90,7 +88,7 @@ public class IssueBooksPageController implements Initializable {
         }
 
         try{
-            boolean isAdd = issueBooksController.issuebooks(issueBookDTO);
+            boolean isAdd = issueBooksServiceImpl.issuebooks(issueBookDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Added Successfully!!!").show();
             }else {
@@ -155,8 +153,8 @@ public class IssueBooksPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cmbSelectMember.setItems(issueBooksController.loadMembers());
-        cmbSelectBook.setItems(issueBooksController.loadBooks());
+        cmbSelectMember.setItems(issueBooksServiceImpl.loadMembers());
+        cmbSelectBook.setItems(issueBooksServiceImpl.loadBooks());
     }
 }
 

@@ -1,6 +1,7 @@
-package controllers.returnBooks;
+package repository;
 
-import controllers.db.DBConnection;
+import controllers.db.HibernateUtil;
+import controllers.returnBooks.ReturnBookPageController;
 import entity.ReturnBookEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,16 +9,15 @@ import model.ReturnBookDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.sql.*;
-import java.time.LocalDate;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class ReturnBookController {
+public class ReturnBookRepository {
+    Session session = HibernateUtil.getSession();
+    public boolean returnBook(ReturnBookDTO returnBookDTO) {
 
-    Session sessionFactory = DBConnection.getSessionFactory();
-
-    public boolean returnBooks(ReturnBookDTO returnBookDTO) {
-
-        Transaction transaction = sessionFactory.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
         try {
             ReturnBookEntity returnBookEntity = new ReturnBookEntity();
@@ -41,11 +41,11 @@ public class ReturnBookController {
 
     }
 
-    public ObservableList<Integer> getAllBooks() {
+    public ObservableList<Integer> getAllBook() {
         ObservableList<Integer> getBooks = FXCollections.observableArrayList();
         String SQL = "SELECT book_id FROM issue_book";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            PreparedStatement preparedStatement = session.prepareStatement(SQL);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 getBooks.add(resultSet.getInt("book_id"));
@@ -54,10 +54,10 @@ public class ReturnBookController {
             throw new RuntimeException(e);
         }
         return getBooks;
-
     }
 
-    public ObservableList<Integer> loadMembers() {
+
+    public ObservableList<Integer> loadMember() {
         ObservableList<Integer> members = FXCollections.observableArrayList();
         String SQL = "SELECT member_id FROM issue_book";
         try {
@@ -72,9 +72,10 @@ public class ReturnBookController {
         }
         return members;
 
+
     }
 
-    public void loadBorrowList(int book_id, ReturnBookPageController returnBookPageController){
+    public void loadBorrowLists(int book_id, ReturnBookPageController returnBookPageController) {
         String SQL = """
                 SELECT 
                     m.member_id,
@@ -95,20 +96,18 @@ public class ReturnBookController {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-            returnBookPageController.fillBorrowingDetails(
-                    resultSet.getInt("member_id"),
-                    resultSet.getString("phone_number"),
-                    resultSet.getString("address"),
-                    resultSet.getDate("issue_date").toLocalDate(),
-                    resultSet.getDate("due_date").toLocalDate()
+                returnBookPageController.fillBorrowingDetails(
+                        resultSet.getInt("member_id"),
+                        resultSet.getString("phone_number"),
+                        resultSet.getString("address"),
+                        resultSet.getDate("issue_date").toLocalDate(),
+                        resultSet.getDate("due_date").toLocalDate()
 
-            );
+                );
 
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
-
 }

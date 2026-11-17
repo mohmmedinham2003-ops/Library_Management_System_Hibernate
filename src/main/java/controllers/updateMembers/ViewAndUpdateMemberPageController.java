@@ -1,24 +1,21 @@
 package controllers.updateMembers;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.ViewAndUpdateMembersDTO;
 import scene.SceneManager;
+import service.ViewAndUpdateServiceImpl;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ViewAndUpdateMemberPageController implements Initializable {
-    ViewAndUpdateController viewAndUpdateController = new ViewAndUpdateController();
+    ViewAndUpdateServiceImpl viewAndUpdateServiceImpl = new ViewAndUpdateServiceImpl();
     Stage stage = new Stage();
 
     @FXML
@@ -113,7 +110,7 @@ public class ViewAndUpdateMemberPageController implements Initializable {
 
         try{
 
-            boolean isAdd = viewAndUpdateController.updateMember(viewAndUpdateMembersDTO);
+            boolean isAdd = viewAndUpdateServiceImpl.updateMember(viewAndUpdateMembersDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Added Successfully!!!").show();
             }else {
@@ -190,16 +187,16 @@ public class ViewAndUpdateMemberPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cmbSelectMember.setItems(viewAndUpdateController.loadMembers());
+        cmbSelectMember.setItems(viewAndUpdateServiceImpl.loadMembers());
         initializeColumn();
-       tblViewUpdateMember.setItems(viewAndUpdateController.getAllMembers());
+       tblViewUpdateMember.setItems(viewAndUpdateServiceImpl.getAllMembers());
 
 
         cmbSelectMember.setOnAction(event -> {
             Integer memberId = cmbSelectMember.getValue();
 
             if(memberId != null){
-                viewAndUpdateController.loadUpdateList(memberId, this);
+                viewAndUpdateServiceImpl.loadUpdateList(memberId, this);
             }
 
         });

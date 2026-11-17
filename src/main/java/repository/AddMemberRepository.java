@@ -1,18 +1,18 @@
-package controllers.members;
+package repository;
 
-import controllers.db.DBConnection;
+import controllers.db.HibernateUtil;
 import entity.MemberEntity;
 import model.MemberDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+public class AddMemberRepository {
+    Session session = HibernateUtil.getSession();
 
-public class AddMemberController {
+    public boolean addMembers(MemberDTO memberDTO) {
 
-    public boolean addMember(MemberDTO memberDTO) {
-        Session sessionFactory = DBConnection.getSessionFactory();
         try {
-            Transaction transaction = sessionFactory.beginTransaction();
+            Transaction transaction = session.beginTransaction();
             MemberEntity memberEntity = new MemberEntity();
 
             memberEntity.setFullName(memberDTO.getFullName());
@@ -29,6 +29,4 @@ public class AddMemberController {
             throw new RuntimeException(e);
         }
     }
-
 }
-

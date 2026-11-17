@@ -1,4 +1,4 @@
-package controllers.mainDashboard;
+package service;
 
 import controllers.db.DBConnection;
 import javafx.collections.FXCollections;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DashboardController {
+public class DashboardServiceImpl {
             Connection connection = DBConnection.getInstance().getConnection();
     public ObservableList<Map<String, String>> loadDetails() {
         ObservableList <Map<String,String>> dashboardDetails = FXCollections.observableArrayList();

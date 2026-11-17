@@ -1,21 +1,22 @@
-package controllers.updateMembers;
+package repository;
 
-import controllers.db.DBConnection;
+import controllers.db.HibernateUtil;
+import controllers.updateMembers.ViewAndUpdateMemberPageController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.ViewAndUpdateMembersDTO;
+import org.hibernate.Session;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ViewAndUpdateController {
-    Connection connection = DBConnection.getInstance().getConnection();
+public class ViewAndUpdateRepository {
+    Session session = HibernateUtil.getSession();
 
-    public ObservableList<Integer> loadMembers() {
+    public ObservableList<Integer> loadMember() {
         ObservableList<Integer> members = FXCollections.observableArrayList();
         String SQL = "SELECT member_id FROM members";
         try {
@@ -28,11 +29,11 @@ public class ViewAndUpdateController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    return members;
-
+        return members;
     }
 
-    public boolean updateMember(ViewAndUpdateMembersDTO viewAndUpdateMembersDTO) {
+
+    public boolean updateMembers(ViewAndUpdateMembersDTO viewAndUpdateMembersDTO) {
         String SQL = "UPDATE members SET full_name = ?,email = ?,phone_number = ?,address = ? WHERE member_id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL);
@@ -49,7 +50,7 @@ public class ViewAndUpdateController {
         }
     }
 
-    public ObservableList<Map<String, String>> getAllMembers(){
+    public ObservableList<Map<String, String>> getAllMemmber() {
         ObservableList<Map<String, String>> membersList = FXCollections.observableArrayList();
         String SQL = "SELECT * FROM members ORDER BY member_id ASC";
 
@@ -73,7 +74,7 @@ public class ViewAndUpdateController {
         return membersList;
     }
 
-    public void loadUpdateList(int member_id,ViewAndUpdateMemberPageController viewAndUpdateMemberPageController){
+    public void loadUpdateLists(int member_id, ViewAndUpdateMemberPageController viewAndUpdateMemberPageController) {
         String SQL = """
                 SELECT full_name,email,phone_number,address
                 FROM members WHERE
@@ -101,7 +102,4 @@ public class ViewAndUpdateController {
         }
 
     }
-
-
-
 }
