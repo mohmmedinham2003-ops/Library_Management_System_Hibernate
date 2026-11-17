@@ -1,6 +1,7 @@
 package repository;
 
 import controllers.db.HibernateUtil;
+import entity.LoginEntity;
 import org.hibernate.Session;
 
 import java.sql.PreparedStatement;
@@ -10,26 +11,15 @@ import java.sql.SQLException;
 public class LoginRepository {
     Session session = HibernateUtil.getSession();
 
-    public boolean checkCredentials(String userName, String password) {
-        String SQL = "SELECT * FROM users";
+    public LoginEntity checkCredentials(String userName, String password) {
+        String HQL = "FROM users WHERE username = :userName_1 AND password = :password_1";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            ResultSet resultSet= preparedStatement.executeQuery();
+        LoginEntity loginEntity= session.createQuery(HQL, LoginEntity.class)
+                .setParameter("userName_1",userName)
+                .setParameter("password_1",password)
+                .uniqueResult();
 
-            while (resultSet.next()){
-                String dbUsername = resultSet.getString("username");
-                String dbPassword = resultSet.getString("password");
-
-                if(userName.equals(dbUsername) && password.equals(dbPassword)){
-                    return true;
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
+        return loginEntity;
 
     }
 }
