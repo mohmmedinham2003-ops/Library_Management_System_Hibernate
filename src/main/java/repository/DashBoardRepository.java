@@ -99,4 +99,21 @@ public class DashBoardRepository {
         return 0;
     }
 
+    public int loadReturnedCount() {
+        String SQL = "SELECT COUNT(*) AS totalReturnedBooks FROM returned_books";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getInt("totalReturnedBooks");
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return 0;
+    }
 }
