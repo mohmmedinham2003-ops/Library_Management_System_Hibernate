@@ -21,65 +21,22 @@ public class DashboardServiceImpl {
 
 
     public ObservableList<Map<String, String>> loadDetails() {
-
         return dashBoardRepository.loaddetail();
-
-
     }
 
 
     public int loadMemberCount() {
-
-
-        String SQL = "SELECT COUNT(*) AS totalMembers FROM members";
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()){
-            return resultSet.getInt("totalMembers");
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-
-        }
-        return 0;
-
+        return dashBoardRepository.loadMembersCount();
     }
 
     public int LoadBookCount() {
-
-
-        String SQL = "SELECT COUNT(*) AS totalBooks FROM books";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                return resultSet.getInt("totalBooks");
-
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return 0;
+        return  dashBoardRepository.loadBooksCount();
     }
 
     public int LoadIssuedBookCount() {
-        String SQL = "SELECT COUNT(*) AS totalIssuedBooks FROM issue_book";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            ResultSet resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()){
-                return resultSet.getInt("totalIssuedBooks");
+        return dashBoardRepository.loadIssuedBookCount();
 
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return 0;
     }
 
     public int LoadReturnedCount() {
