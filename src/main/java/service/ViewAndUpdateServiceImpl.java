@@ -1,6 +1,5 @@
 package service;
 
-import controllers.db.DBConnection;
 import controllers.updateMembers.ViewAndUpdateMemberPageController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class AddMemberRepository {
-    Session session = HibernateUtil.getSession();
+    Session session = HibernateUtil.getInstance().getSession();
 
     public boolean addMembers(MemberDTO memberDTO) {
 
