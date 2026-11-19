@@ -9,13 +9,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import scene.SceneManager;
+import service.BorrowingHistoryService;
+import service.BorrowingHistoryServiceImpl;
 
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class BorrowingHistoryPageController implements Initializable {
-    BorrowingHistoryController borrowingHistoryController = new BorrowingHistoryController();
+    BorrowingHistoryService borrowingHistoryService = new BorrowingHistoryServiceImpl();
     Stage stage = new Stage();
     @FXML
     private Button btnAddBooks;
@@ -112,6 +114,6 @@ public class BorrowingHistoryPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         borrowingHistoryTable();
-        tblBookBorrowingHistory.setItems(borrowingHistoryController.getHistoryTable());
+        tblBookBorrowingHistory.setItems(borrowingHistoryService.getHistoryTable());
     }
 }

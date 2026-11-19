@@ -9,9 +9,10 @@ import javafx.stage.Stage;
 import model.BookDTO;
 import scene.SceneManager;
 import service.AddBookService;
+import service.AddBookServiceImpl;
 
 public class AddBookPageController {
-    AddBookService addBookService = new AddBookService();
+    AddBookService addBookService = new AddBookServiceImpl();
     Stage stage = new Stage();
     @FXML
     private Button btnAdd;

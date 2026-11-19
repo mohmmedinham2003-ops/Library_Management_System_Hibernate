@@ -7,10 +7,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import scene.SceneManager;
+import service.LoginService;
 import service.LoginServiceImpl;
 
 public class LoginPageController {
-    LoginServiceImpl loginServiceImpl = new LoginServiceImpl();
+    LoginService loginService = new LoginServiceImpl();
     Stage stage = new Stage();
 
     @FXML
@@ -34,7 +35,7 @@ public class LoginPageController {
     @FXML
     void btnLoginOnAction(ActionEvent event) {
 
-         if(loginServiceImpl.checkUsernameAndpassword(txtUserName.getText(),txtPassword.getText())){
+         if(loginService.checkUsernameAndpassword(txtUserName.getText(),txtPassword.getText())){
            SceneManager.switchPage("/view/main_dashboard.fxml");
 
          }

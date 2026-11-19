@@ -1,9 +1,9 @@
-package controllers.borrowingHistory;
+package repository;
 
-import controllers.db.DBConnection;
+import controllers.db.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
+import org.hibernate.Session;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,10 +12,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BorrowingHistoryController {
-    Connection connection = DBConnection.getInstance().getConnection();
+public class BorrowingHistoryRepository {
+    Session session = HibernateUtil.getInstance().getSession();
 
-    public ObservableList<Map<String,String>> getHistoryTable() {
+    public ObservableList<Map<String, String>> getHistoryTbl() {
         ObservableList<Map<String, String>> borrowList = FXCollections.observableArrayList();
         Connection connection = DBConnection.getInstance().getConnection();
         String SQL = """

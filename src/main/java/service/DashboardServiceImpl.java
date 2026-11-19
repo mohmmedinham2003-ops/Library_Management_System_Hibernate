@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DashboardServiceImpl {
+public class DashboardServiceImpl implements DashboardService{
 
     DashBoardRepository dashBoardRepository = new DashBoardRepository();
 

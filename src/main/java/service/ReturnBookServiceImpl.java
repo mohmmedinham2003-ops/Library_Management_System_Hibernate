@@ -11,7 +11,7 @@ import repository.ReturnBookRepository;
 
 import java.sql.*;
 
-public class ReturnBookServiceImpl {
+public class ReturnBookServiceImpl implements ReturnBookService{
 
     ReturnBookRepository returnBookRepository = new ReturnBookRepository();
 
