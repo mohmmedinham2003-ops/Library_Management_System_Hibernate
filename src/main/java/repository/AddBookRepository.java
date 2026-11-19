@@ -1,19 +1,12 @@
-package controllers.books;
+package repository;
 
-import controllers.db.DBConnection;
 import entity.BookEntity;
 import model.BookDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-public class AddBookController {
-
-
-    public boolean addBook(BookDTO bookDTO) {
+public class AddBookRepository {
+    public boolean addBooks(BookDTO bookDTO) {
         Session sessionFactory = DBConnection.getSessionFactory();
 
         try {
@@ -35,8 +28,6 @@ public class AddBookController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
 
     }
 }
