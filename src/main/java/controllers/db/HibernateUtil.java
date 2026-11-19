@@ -34,5 +34,5 @@ public class HibernateUtil {
 
     }
 
-    public Session getSession(){return session;}
+    public static Session getSession(){return session;}
 }

@@ -1,6 +1,5 @@
 package service;
 
-import controllers.db.DBConnection;
 import entity.LoginEntity;
 import repository.LoginRepository;
 
