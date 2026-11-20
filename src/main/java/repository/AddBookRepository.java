@@ -1,16 +1,18 @@
 package repository;
 
+import controllers.db.HibernateUtil;
 import entity.BookEntity;
 import model.BookDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class AddBookRepository {
+    Session session = HibernateUtil.getInstance().getSession();
+
     public boolean addBooks(BookDTO bookDTO) {
-        Session sessionFactory = DBConnection.getSessionFactory();
 
         try {
-            Transaction transaction = sessionFactory.beginTransaction();
+            Transaction transaction = session.beginTransaction();
             BookEntity bookEntity = new BookEntity();
 
             bookEntity.setBookTitle(bookDTO.getBookTitle());
@@ -19,7 +21,7 @@ public class AddBookRepository {
             bookEntity.setPublishedyear(bookDTO.getPublishedyear());
             bookEntity.setQuantity(bookDTO.getQuantity());
 
-            sessionFactory.persist(bookEntity);
+            session.persist(bookEntity);
 
             transaction.commit();
 
