@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginServiceImpl {
+public class LoginServiceImpl implements LoginService {
     LoginRepository loginRepository = new LoginRepository();
 
     public boolean checkUsernameAndpassword(String userName, String password) {

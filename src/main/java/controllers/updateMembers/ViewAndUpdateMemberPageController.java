@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.ViewAndUpdateMembersDTO;
 import scene.SceneManager;
+import service.ViewAndUpdateService;
 import service.ViewAndUpdateServiceImpl;
 
 import java.net.URL;
@@ -15,7 +16,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ViewAndUpdateMemberPageController implements Initializable {
-    ViewAndUpdateServiceImpl viewAndUpdateServiceImpl = new ViewAndUpdateServiceImpl();
+    ViewAndUpdateService viewAndUpdateService = new ViewAndUpdateServiceImpl();
     Stage stage = new Stage();
 
     @FXML
@@ -110,7 +111,7 @@ public class ViewAndUpdateMemberPageController implements Initializable {
 
         try{
 
-            boolean isAdd = viewAndUpdateServiceImpl.updateMember(viewAndUpdateMembersDTO);
+            boolean isAdd = viewAndUpdateService.updateMember(viewAndUpdateMembersDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Added Successfully!!!").show();
             }else {
@@ -187,16 +188,16 @@ public class ViewAndUpdateMemberPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cmbSelectMember.setItems(viewAndUpdateServiceImpl.loadMembers());
+        cmbSelectMember.setItems(viewAndUpdateService.loadMembers());
         initializeColumn();
-       tblViewUpdateMember.setItems(viewAndUpdateServiceImpl.getAllMembers());
+       tblViewUpdateMember.setItems(viewAndUpdateService.getAllMembers());
 
 
         cmbSelectMember.setOnAction(event -> {
             Integer memberId = cmbSelectMember.getValue();
 
             if(memberId != null){
-                viewAndUpdateServiceImpl.loadUpdateList(memberId, this);
+                viewAndUpdateService.loadUpdateList(memberId, this);
             }
 
         });

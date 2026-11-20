@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.ReturnBookDTO;
 import scene.SceneManager;
+import service.ReturnBookService;
 import service.ReturnBookServiceImpl;
 
 import java.net.URL;
@@ -15,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class ReturnBookPageController implements Initializable {
     Stage stage = new Stage();
-    ReturnBookServiceImpl returnBookServiceImpl = new ReturnBookServiceImpl();
+    ReturnBookService returnBookService = new ReturnBookServiceImpl();
 
     @FXML
     private Button btnAddBooks;
@@ -106,7 +107,7 @@ public class ReturnBookPageController implements Initializable {
         }
 
         try {
-            boolean isAdd = returnBookServiceImpl.returnBooks(returnBookDTO);
+            boolean isAdd = returnBookService.returnBooks(returnBookDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Successfully Added!!").show();
             }else {
@@ -178,14 +179,14 @@ public class ReturnBookPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cmbBookId.setItems(returnBookServiceImpl.getAllBooks());
-        cmbMemberId.setItems(returnBookServiceImpl.loadMembers());
+        cmbBookId.setItems(returnBookService.getAllBooks());
+        cmbMemberId.setItems(returnBookService.loadMembers());
 
         cmbBookId.setOnAction(event -> {
             Integer bookId = cmbBookId.getValue();
 
             if (bookId != null) {
-                returnBookServiceImpl.loadBorrowList(bookId, this);
+                returnBookService.loadBorrowList(bookId, this);
             }
         });
     }

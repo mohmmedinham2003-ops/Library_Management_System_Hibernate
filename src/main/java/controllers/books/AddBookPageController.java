@@ -2,19 +2,17 @@ package controllers.books;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.BookDTO;
 import scene.SceneManager;
-
-import java.io.IOException;
+import service.AddBookService;
+import service.AddBookServiceImpl;
 
 public class AddBookPageController {
-    AddBookController addBookController = new AddBookController();
+    AddBookService addBookService = new AddBookServiceImpl();
     Stage stage = new Stage();
     @FXML
     private Button btnAdd;
@@ -81,7 +79,7 @@ public class AddBookPageController {
         }
 
         try{
-            boolean isAdd = addBookController.addBook(bookDTO);
+            boolean isAdd = addBookService.addBook(bookDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Book Added Successfully!!!").show();
             }else {

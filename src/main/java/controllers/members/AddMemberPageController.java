@@ -8,10 +8,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.MemberDTO;
 import scene.SceneManager;
+import service.AddMemberService;
 import service.AddMemberServiceImpl;
 
 public class AddMemberPageController {
-AddMemberServiceImpl addMemberServiceImpl = new AddMemberServiceImpl();
+AddMemberService addMemberService = new AddMemberServiceImpl();
 Stage stage = new Stage();
     @FXML
     private Button btnAdd;
@@ -74,7 +75,7 @@ Stage stage = new Stage();
         }
 
         try{
-        boolean isAdd = addMemberServiceImpl.addMember(memberDTO);
+        boolean isAdd = addMemberService.addMember(memberDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Member Added Successfully!!!").show();
 

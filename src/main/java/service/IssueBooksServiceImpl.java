@@ -11,12 +11,18 @@ import repository.IssueBooksRepository;
 
 import java.sql.*;
 
-public class IssueBooksServiceImpl {
+public class IssueBooksServiceImpl implements IssueBookService{
     IssueBooksRepository issueBooksRepository = new IssueBooksRepository();
-
 
     public ObservableList<Integer> loadMembers() {
          return   issueBooksRepository.loadMember();
     }
 
+    public ObservableList<Integer> loadBooks() {
+        return issueBooksRepository.loadBook();
+    }
+
+    public boolean issuebooks(IssueBookDTO issueBookDTO) {
+        return issueBooksRepository.issueBook(issueBookDTO);
+    }
 }

@@ -16,6 +16,7 @@ public class DashBoardRepository {
     Session session = HibernateUtil.getInstance().getSession();
 
     public ObservableList<Map<String, String>> loaddetail() {
+
         ObservableList <Map<String,String>> dashboardDetails = FXCollections.observableArrayList();
         String SQL = """
         SELECT b.book_id, b.book_title,
@@ -46,5 +47,73 @@ public class DashBoardRepository {
             throw new RuntimeException(e);
         }
         return dashboardDetails;
+    }
+
+    public int loadMembersCount() {
+        String SQL = "SELECT COUNT(*) AS totalMembers FROM members";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                return resultSet.getInt("totalMembers");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+        return 0;
+    }
+
+
+    public int loadBooksCount() {
+        String SQL = "SELECT COUNT(*) AS totalBooks FROM books";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getInt("totalBooks");
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    public int loadIssuedBookCount() {
+        String SQL = "SELECT COUNT(*) AS totalIssuedBooks FROM issue_book";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()){
+                return resultSet.getInt("totalIssuedBooks");
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    public int loadReturnedCount() {
+        String SQL = "SELECT COUNT(*) AS totalReturnedBooks FROM returned_books";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getInt("totalReturnedBooks");
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return 0;
     }
 }

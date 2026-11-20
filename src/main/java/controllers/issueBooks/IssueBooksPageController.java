@@ -10,13 +10,14 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 import model.IssueBookDTO;
 import scene.SceneManager;
+import service.IssueBookService;
 import service.IssueBooksServiceImpl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class IssueBooksPageController implements Initializable {
-    IssueBooksServiceImpl issueBooksServiceImpl = new IssueBooksServiceImpl();
+    IssueBookService issueBooksService = new IssueBooksServiceImpl();
     Stage stage = new Stage();
 
     @FXML
@@ -88,7 +89,7 @@ public class IssueBooksPageController implements Initializable {
         }
 
         try{
-            boolean isAdd = issueBooksServiceImpl.issuebooks(issueBookDTO);
+            boolean isAdd = issueBooksService.issuebooks(issueBookDTO);
             if (isAdd){
                 new Alert(Alert.AlertType.CONFIRMATION,"Added Successfully!!!").show();
             }else {
@@ -153,8 +154,8 @@ public class IssueBooksPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cmbSelectMember.setItems(issueBooksServiceImpl.loadMembers());
-        cmbSelectBook.setItems(issueBooksServiceImpl.loadBooks());
+        cmbSelectMember.setItems(issueBooksService.loadMembers());
+        cmbSelectBook.setItems(issueBooksService.loadBooks());
     }
 }
 

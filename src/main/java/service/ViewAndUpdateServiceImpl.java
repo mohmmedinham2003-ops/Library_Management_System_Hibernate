@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ViewAndUpdateServiceImpl {
+public class ViewAndUpdateServiceImpl implements ViewAndUpdateService {
     ViewAndUpdateRepository viewAndUpdateRepository = new ViewAndUpdateRepository();
 
     public ObservableList<Integer> loadMembers() {
@@ -31,7 +31,5 @@ public class ViewAndUpdateServiceImpl {
     public void loadUpdateList(int member_id, ViewAndUpdateMemberPageController viewAndUpdateMemberPageController){
         viewAndUpdateRepository.loadUpdateLists(member_id,viewAndUpdateMemberPageController);
     }
-
-
 
 }
